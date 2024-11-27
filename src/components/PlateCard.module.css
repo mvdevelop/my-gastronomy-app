@@ -1,0 +1,52 @@
+
+.cardContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    width: 17em;
+    height: 25em;
+    box-shadow: rgba(0, 0, 0, 0.479) 2px 2px 5px;
+    border-radius: 5px;
+}
+
+.cardContainer:hover {
+    box-shadow: rgb(255, 241, 176) 5px 5px 10px;
+    transition: 1.5s;
+}
+
+.cardContainer img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.cardContent {
+    position: absolute;
+    padding: 0.5em;
+    color: #fff;
+    text-shadow: #0000007a 1px 1px 2px;
+    padding-bottom: 1em;
+}
+
+.cardContainer:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.8));
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+}
+
+.price {
+    text-align: right;
+}
+
+.ingredients {
+    color: #e6c36b;
+}

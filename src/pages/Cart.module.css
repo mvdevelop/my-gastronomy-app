@@ -1,0 +1,114 @@
+
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    margin-bottom: 1em;
+    align-items: center;
+}
+
+.pageContainer h1 {
+    padding-top: .5em;
+}
+
+.itemsListContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.itemContainer {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    background-color: #222;
+    color: #fff;
+    padding: 1em;
+    border-radius: 5px;
+    gap: 1em;
+}
+
+.itemContainer img {
+    width: 15em;
+    height: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.itemContent {
+    width: 100%;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: .9em;
+    font-size: 1.1em;
+}
+
+.itemContent p {
+    color: #e6c36b;
+}
+
+.portionContainer {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.portionBtn {
+    display: flex;
+    gap: .5em;
+}
+
+.portionBtn button {
+    width: 2em;
+}
+
+.confirmBtn {
+    position: fixed;
+    font-size: larger;
+    bottom: 2em;
+}
+
+.confirmBtn:hover {
+    box-shadow: whitesmoke 1px 1px 2px;
+    transition: 1s;
+    background-color: #e6c36b;
+}
+
+.cartEmpty {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+}
+
+.cartEmpty a {
+    text-decoration: none;
+}
+
+@media screen and (max-width: 500px) {
+
+    .itemContainer {
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        margin: 0 1em;
+    }
+
+    .itemContainer img {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 375px) {
+
+    .itemContainer {
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        margin: 0 1em;
+    }
+
+    .itemContainer img {
+        width: 100%;
+    }
+}

@@ -1,0 +1,12 @@
+
+.popupContainer {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    padding: 1em;
+}
+
+.confirmBtns {
+    display: flex;
+    gap: .5em;
+}

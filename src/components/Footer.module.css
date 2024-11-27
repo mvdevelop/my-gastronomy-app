@@ -1,0 +1,24 @@
+
+.footerContainer {
+    background-color: #222;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 1em;
+}
+
+.footerContainer img {
+    width: 3em;
+}
+
+.footerContainerLinks a {
+    color: #fff;
+    font-size: 1.4em;
+    margin: 0 .5em;
+}
+
+.footerContainerLinks a:hover {
+    color: #9b9cfc;
+    transition: 2s;
+}

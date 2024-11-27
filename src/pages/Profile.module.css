@@ -1,0 +1,54 @@
+
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em;
+    gap: 0.5em;
+}
+
+.orderContainer {
+    background-color: #222;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.521);
+    color: #fff;
+    padding: 0.5em;
+    border-radius: 5px;
+}
+
+.ordersContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5em;
+}
+
+.pickupStatus {
+    border-radius: 0.5em;
+    width: fit-content;
+    padding: 0.4em;
+    margin: 0.3em;
+    font-size: 1.1em;
+}
+
+.pending {
+    background-color: #eebe4f;
+    align-items: center;
+}
+
+.completed {
+    background-color: #4D9078;
+    align-items: center;
+}
+
+.canceled {
+    background-color: #e76767;
+    align-items: center;
+}
+
+.platesLink {
+    color: #2b99da;
+}
+
+@media screen and (max-width: 800px) {
+    .ordersContainer {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

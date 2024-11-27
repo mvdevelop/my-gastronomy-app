@@ -1,0 +1,21 @@
+
+.popupContainer {
+    background-color: #222;
+    color: #fff;
+    padding: 1.5em;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.popupContainer img {
+    width: 10em;
+    border-radius: 5px;
+}
+
+.popupContent {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    padding: .5em;
+}
