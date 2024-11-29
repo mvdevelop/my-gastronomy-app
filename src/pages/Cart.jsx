@@ -7,6 +7,7 @@ import { UseCartContext } from '../contexts/UseCartContext';
 import { useState } from 'react';
 import ConfirmOrderPopup from '../components/ConfirmOrderPopup';
 import OrderServices from '../services/OrderServices';
+import { Link } from 'react-router-dom';
 
 function Cart() {
 
@@ -50,11 +51,11 @@ function Cart() {
     return (
       <div className={styles.cartEmpty}>
         <h1>Your cart is empty... </h1>
-        <a href="/frontend/src/pages/Plates.jsx">
-        <button>
-          See our specialities
-        </button>
-        </a>
+        <Link to={'/plates'}>
+          <button>
+            See our specialities
+          </button>
+        </Link>
       </div>
     )
   }
