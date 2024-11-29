@@ -50,7 +50,7 @@ function Cart() {
     return (
       <div className={styles.cartEmpty}>
         <h1>Your cart is empty... </h1>
-        <a href="/plates">
+        <a href="/src/pages/Plates.jsx">
         <button>
           See our specialities
         </button>
