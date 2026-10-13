@@ -2,7 +2,42 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="src/assets/img/icon.png" />
+    <!--
+      Favicon: the icon is a PNG, so the MIME type must be image/png.
+      (Previously declared as image/svg+xml pointing at a .png — browsers
+      would 404 the favicon and log a console error.)
+    -->
+    <link rel="icon" type="image/png" href="/src/assets/img/icon.png" />
+    <link rel="shortcut icon" href="/src/assets/img/icon.png" />
+
+    <!--
+      Security headers — defense in depth for a static SPA.
+
+      Content-Security-Policy (default-src 'self'):
+        - Blocks inline <script>/<style> and inline event handlers
+          (onclick=...), which is the primary XSS vector for this app.
+        - Blocks all remote scripts and connects only to same origin,
+          so a compromised third-party script cannot exfiltrate data.
+        - 'unsafe-inline' is intentionally omitted (CWE-79 mitigation).
+
+      X-Content-Type-Options: stops MIME-type sniffing (CWE-434).
+      X-Frame-Options: prevents click-jacking (CWE-1022).
+      Referrer-Policy: no-referrer — prevents leaking the URL (which
+        contains the user's cart/order state) to downstream sites.
+      Permissions-Policy: restricts browser features the app does not use.
+
+      NOTE: HSTS (Strict-Transport-Security) is intentionally omitted here
+      because this file is served over plain HTTP during local dev
+      (vite port 8080). It MUST be set by the production web server / CDN
+      alongside the CSP (see docs/DEPLOYMENT.md).
+    -->
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="Referrer-Policy" content="no-referrer" />
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Gastronomy.com</title>
   </head>
