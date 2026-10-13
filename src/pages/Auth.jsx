@@ -7,19 +7,25 @@ import { useNavigate } from 'react-router-dom';
 import authServices from '../services/S_auth';
 import { LuLogIn } from 'react-icons/lu';
 
+// Centralized auth storage: validates JWT expiry, isolates localStorage,
+// and fails safely on corrupted/missing data (CWE-798 / CWE-754 mitigation).
+import { getSession } from '../lib/authStorage';
+
 function Auth() {
   const [ formType, setformType ] = useState('login');
   const [ formData, setformData ] = useState(null);
   const { login, signup, authLoading } = authServices();
 
   const navigate = useNavigate();
-  const authData = JSON.parse(localStorage.getItem('auth'));
 
   useEffect(() => {
-    if(authData) {
-      return navigate('/profile')
+    const session = getSession();
+    if (session) {
+      // Token is valid → redirect to profile
+      navigate('/profile');
     }
-  }, [ authData, navigate ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChangeFormType = () => {
     setformData(null);
