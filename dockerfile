@@ -1,19 +1,18 @@
 
-# Use an official Node.js runtime as a parent image
-FROM node:18-alpine
-
-# Set the working directory in the container
-WORKDIR /usr/src/app
-
-# Copy package.json and package-lock.json to the working directory
-COPY package.json ./
-
-# Install app dependencies
-RUN npm install
-
-# Copy the rest of the application code to the working directory
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
 COPY . .
+RUN npm run build
 
-CMD ["npm", "run", "dev"]
+FROM nginx:1.27-alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
 
-EXPOSE 8080
+USER nginx
+CMD ["nginx", "-g", "daemon off;"]
+
+# Build: docker build -f dockerfile -t my-gastronomy .
+# Run:   docker run --rm -p 8080:80 my-gastronomy

@@ -25,6 +25,17 @@ const API_BASE =
 /** Tempo máximo por requisição (ms) para evitar hangs (DoS mitigation). */
 const REQUEST_TIMEOUT_MS = 10000;
 
+function getAuthHeader() {
+  try {
+    const raw = localStorage.getItem('auth');
+    if (!raw) return {};
+    const session = JSON.parse(raw);
+    return session?.token ? { Authorization: `Bearer ${session.token}` } : {};
+  } catch {
+    return {};
+  }
+}
+
 /**
  * Executa uma requisição HTTP com timeout e tratamento de erro padronizado.
  * @param {string} endpoint — caminho relativo, ex: '/auth/login'.
@@ -41,6 +52,7 @@ async function request(endpoint, init = {}) {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        ...getAuthHeader(),
         ...(init.headers || {}),
       },
       signal: controller.signal,

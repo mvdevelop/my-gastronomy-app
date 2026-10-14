@@ -1,62 +1,32 @@
-
-import { useState } from "react";
+import { useCallback, useState } from 'react';
+import { get, post } from '../lib/apiClient';
 
 function OrderServices() {
-    const [ orderLoading, setOrderLoading ] = useState(false);
-    const [ refetchOrders, setRefetchOrders ] = useState(true);
-    const [ ordersList, setOrdersList ] = useState([]);
+  const [orderLoading, setOrderLoading] = useState(false);
+  const [refetchOrders, setRefetchOrders] = useState(true);
+  const [ordersList, setOrdersList] = useState([]);
 
-    // const url = 'http://localhost:3000/orders';
-
-    const url = 'https://my-gastronomy-backend.vercel.app/orders';
-
-    const getUserOrders = (userId) => {
-        setOrderLoading(true);
-
-        fetch(`${url}/userorders/${userId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-        })
-        .then((response) => response.json())
-        .then((result) => { 
-            if(result.success) {
-                setOrdersList(result.body);
-            } else {
-                console.log(result); 
-            }
-        })
-        .catch((error) => console.log(error))
-        .finally(() => { 
-            setOrderLoading(false);
-            setRefetchOrders(false); 
-        });
+  const getUserOrders = useCallback(async (userId) => {
+    if (!userId) return;
+    setOrderLoading(true);
+    const result = await get(`/orders/userorders/${encodeURIComponent(userId)}`);
+    if (result.success && Array.isArray(result.body)) {
+      setOrdersList(result.body);
+    } else {
+      setOrdersList([]);
     }
+    setRefetchOrders(false);
+    setOrderLoading(false);
+  }, []);
 
-    const sendOrder = (orderData) => {
-        setOrderLoading(true);
+  const sendOrder = useCallback(async (orderData) => {
+    setOrderLoading(true);
+    const result = await post('/orders', orderData);
+    setOrderLoading(false);
+    return result;
+  }, []);
 
-        fetch(`${url}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify(orderData)
-        })
-        .then((response) => response.json())
-        .then((result) => { 
-            console.log(result); 
-        })
-        .catch((error) => console.log(error))
-        .finally(() => { 
-            setOrderLoading(false); 
-        });
-    }
-
-    return { getUserOrders, sendOrder, orderLoading, refetchOrders, ordersList }
+  return { getUserOrders, sendOrder, orderLoading, refetchOrders, ordersList };
 }
 
 export default OrderServices;

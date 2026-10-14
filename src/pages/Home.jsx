@@ -33,7 +33,7 @@ function Home() {
 
         <section className={styles.contactSection}>
           <h1>Stay Updated!</h1>
-          <p>Enter the world of My Gastronomy by following us on social media. You'll always be updated on our culinary creations, special events, and gourmet surprises. Don't miss out on a single bite!
+          <p>Enter the world of My Gastronomy by following us on social media. You&apos;ll always be updated on our culinary creations, special events, and gourmet surprises. Don&apos;t miss out on a single bite!
           </p>
         </section>
     </div>
