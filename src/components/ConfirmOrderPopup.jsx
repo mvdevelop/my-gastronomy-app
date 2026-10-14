@@ -2,7 +2,7 @@
 
 import styles from './ConfirmOrderPopup.module.css';
 import { Dialog, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Centralized auth storage: validates JWT expiry, isolates localStorage,
@@ -22,7 +22,7 @@ function ConfirmOrderPopup({ open, onClose, onConfirm }) {
       return navigate('/auth');
     }
 
-    if (!formData?.pickupTime) {
+    if (!formData?.pickupTime || formData.pickupTime < '08:00' || formData.pickupTime > '22:00') {
       return;
     } else {
       const orderData = {
@@ -46,16 +46,18 @@ function ConfirmOrderPopup({ open, onClose, onConfirm }) {
       <div className={styles.popupContainer}>
         <h2>We`re almost there...</h2>
         <p>Confirm your order with the current date:<strong>{(new Date()).toLocaleDateString()}</strong>. What time will you come to pick up your order?</p>
-        <form className={styles.formContainer}>
+        <form className={styles.formContainer} onSubmit={handleConfirm}>
           <TextField
             onChange={handleFormDataChange}
             required
             type="time"
             name="pickupTime"
+            label="Pickup time"
+            inputProps={{ min: '08:00', max: '22:00' }}
           />
           <div className={styles.confirmBtns}>
-            <button className={styles.cancelBtn} onClick={onClose}>Cancel</button>
-            <button onClick={handleConfirm}>Confirm</button>
+            <button type="button" className={styles.cancelBtn} onClick={onClose}>Cancel</button>
+            <button type="submit" onClick={handleConfirm}>Confirm</button>
           </div>
         </form>
       </div>

@@ -9,17 +9,14 @@ export function CartProvider({ children }) {
     const [ cartItems, setCartItems ] = useState([]);
 
     const addToCart = (itemToAdd) => {
-        const checkItemAlready = cartItems.find((cartItem) => {
-            return cartItem._id === itemToAdd._id;
-        })
+        if (!itemToAdd?._id) return;
 
-        if(!checkItemAlready) {
-            itemToAdd.quantity = 1;
-            setCartItems([...cartItems, itemToAdd]);
-            console.log('Item added correctly!');
-        } else {
-            console.log('Item is already on cart!');
-        }
+        setCartItems((currentItems) => {
+            if (currentItems.some((cartItem) => cartItem._id === itemToAdd._id)) {
+                return currentItems;
+            }
+            return [...currentItems, { ...itemToAdd, quantity: 1 }];
+        });
     }
 
     const removeFromCart = (itemId) => {
@@ -31,7 +28,8 @@ export function CartProvider({ children }) {
     }
 
     const updateCartItems = (items) => {
-        setCartItems(items);
+        if (!Array.isArray(items)) return;
+        setCartItems(items.map((item) => ({ ...item, quantity: Math.max(1, Number(item.quantity) || 1) })));
     }
 
     const clearCart = () => {
@@ -48,8 +46,8 @@ export function CartProvider({ children }) {
 export const UseCartContext = () => {
     const context = useContext(CartContext);
 
-    if(!context) {
-        console.log('You are out of CartContext!');
+    if (!context) {
+        throw new Error('UseCartContext must be used inside CartProvider');
     }
 
     return context;

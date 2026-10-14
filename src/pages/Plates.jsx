@@ -38,8 +38,6 @@ function Plates() {
     return(<Loading />)
   }
 
-  console.log(platesList);
-
   return (
     <>
       <div className={styles.platesContainer}>

@@ -7,7 +7,7 @@ function PlateCard({ plateData }) {
   return (
     <>
         <div className={styles.cardContainer}>
-            <img src={plateData.imgUrl} alt="" />
+            <img src={plateData.imgUrl} alt={plateData.name || 'Dish'} loading="lazy" />
             <div className={styles.cardContent}>
                 <h3>{plateData.name}</h3>
                 <p className={styles.ingredients}>{String(plateData.ingredients)}</p>

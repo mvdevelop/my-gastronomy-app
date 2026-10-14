@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from 'react';
 import { get } from '../lib/apiClient';
 
 /**
@@ -20,7 +20,7 @@ function PlateServices() {
   const [plateLoading, setPlateLoading] = useState(true);
   const [platesList, setPlatesList] = useState([]);
 
-  const getAvailablePlates = () => {
+  const getAvailablePlates = useCallback(() => {
     setPlateLoading(true);
 
     get('/plates/availables')
@@ -38,7 +38,7 @@ function PlateServices() {
         setPlatesList([]);
       })
       .finally(() => setPlateLoading(false));
-  };
+  }, []);
 
   return { getAvailablePlates, plateLoading, platesList };
 }
