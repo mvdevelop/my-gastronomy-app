@@ -36,13 +36,19 @@ function Cart() {
     setConfirmPopupOpen(!confirmPopupOpen);
   }
 
-  const handleConfirmOrder = (orderData) => {
-    orderData.items = cartItems.map((item) => {
-      return { plateId: item._id, quantity: item.quantity }
-    })
-    sendOrder(orderData);
-    setConfirmPopupOpen(!confirmPopupOpen);
-    clearCart();
+  const handleConfirmOrder = async (orderData) => {
+    const payload = {
+      ...orderData,
+      items: cartItems.map((item) => ({
+        plateId: item._id,
+        quantity: item.quantity,
+      })),
+    };
+    const result = await sendOrder(payload);
+    if (result.success) {
+      setConfirmPopupOpen(false);
+      clearCart();
+    }
   }
 
   // console.log(cartItems);

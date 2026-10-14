@@ -22,7 +22,7 @@ function ConfirmOrderPopup({ open, onClose, onConfirm }) {
       return navigate('/auth');
     }
 
-    if (!formData.pickupTime) {
+    if (!formData?.pickupTime) {
       return;
     } else {
       const orderData = {
