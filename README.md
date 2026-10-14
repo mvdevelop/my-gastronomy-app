@@ -1,7 +1,26 @@
 
-My Gastronomy 🍽️
+# My Gastronomy 🍽️
 
-My Gastronomy is a React + Vite application designed to showcase recipes, culinary tips, and gastronomy content in a clean and interactive interface. Users can explore dishes, view ingredients, and learn cooking techniques.
+Aplicação React + Vite para explorar pratos e criar pedidos. O frontend usa autenticação JWT, rotas protegidas, cliente HTTP centralizado, timeout de requisições e pipeline CI com lint, build, auditoria de dependências e CodeQL.
+
+## Segurança
+
+- Tokens são validados localmente quanto à expiração e não são registrados em logs.
+- Requisições autenticadas usam `Authorization: Bearer`.
+- Rotas de perfil e carrinho exigem sessão válida.
+- Em produção, o container usa build multi-stage, Nginx e usuário não-root.
+- O token em `localStorage` é uma limitação conhecida; a solução ideal é migrar para cookie `HttpOnly`, `Secure` e `SameSite` com suporte do backend.
+
+## Desenvolvimento
+
+```bash
+npm ci
+npm run dev
+npm run lint
+npm run build
+```
+
+Configure a API copiando `.env.example` para `.env.local`. Nunca coloque segredos em variáveis `VITE_*`, pois elas são expostas no bundle do navegador.
 
 💡 Features
 

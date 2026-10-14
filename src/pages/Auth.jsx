@@ -13,7 +13,8 @@ import { getSession } from '../lib/authStorage';
 
 function Auth() {
   const [ formType, setformType ] = useState('login');
-  const [ formData, setformData ] = useState(null);
+  const [ formData, setformData ] = useState({ email: '', password: '', fullname: '', confirmPassword: '' });
+  const [ formError, setFormError ] = useState('');
   const { login, signup, authLoading } = authServices();
 
   const navigate = useNavigate();
@@ -28,7 +29,8 @@ function Auth() {
   }, []);
 
   const handleChangeFormType = () => {
-    setformData(null);
+    setFormError('');
+    setformData({ email: '', password: '', fullname: '', confirmPassword: '' });
     if(formType === 'login') {
       setformType('signup');
     } else {
@@ -36,30 +38,42 @@ function Auth() {
     }
   };
 
-  const handleFormDataChange = (e) => {
-    setformData({
-      ...formData, 
-      [e.target.name]: e.target.value
-    });
-  }
-
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    
-    switch (formType) {
-      case 'login':
-        login(formData)
-      break;
-      case 'signup':
-        if(formData.password !== formData.confirmPassword) {
-          console.log('Passwords do not match');
-          return
-        }
-        signup(formData);
+    setFormError('');
 
-      break;
+    const email = formData.email.trim();
+    const password = formData.password;
+    if (!email || !password) {
+      setFormError('Email and password are required.');
+      return;
     }
-  }
+    if (formType === 'signup') {
+      if (!formData.fullname.trim()) {
+        setFormError('Full name is required.');
+        return;
+      }
+      if (password.length < 8) {
+        setFormError('Password must contain at least 8 characters.');
+        return;
+      }
+      if (password !== formData.confirmPassword) {
+        setFormError('Passwords do not match.');
+        return;
+      }
+      signup({ ...formData, email, fullname: formData.fullname.trim() }).then((result) => {
+        if (!result.success) setFormError(result.message);
+      });
+      return;
+    }
+    login({ email, password }).then((result) => {
+      if (!result.success) setFormError(result.message);
+    });
+  };
+
+  const handleFormDataChange = (e) => {
+    setformData((current) => ({ ...current, [e.target.name]: e.target.value }));
+  };
 
   if(authLoading) {
     return ( <h1>Loading...</h1> )
@@ -71,6 +85,7 @@ function Auth() {
         <>
           <h1>Login</h1>
             <button onClick={handleChangeFormType}>Dont you have an account? Click here</button>
+            {formError ? <p role="alert">{formError}</p> : null}
             <form onSubmit={handleSubmitForm}>
               <TextField 
               required
@@ -96,6 +111,7 @@ function Auth() {
         <>
           <h1>Signup</h1>
             <button onClick={handleChangeFormType}>Already have an account? Click here</button>
+            {formError ? <p role="alert">{formError}</p> : null}
             <form onSubmit={handleSubmitForm}>
               <TextField 
               required

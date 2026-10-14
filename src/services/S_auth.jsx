@@ -22,44 +22,40 @@ import { setSession, clearSession, getSession } from "../lib/authStorage";
 function S_auth() {
   const [authLoading, setAuthLoading] = useState(false);
 
-  const login = (formData) => {
+  const login = async (formData) => {
     setAuthLoading(true);
-
-    post("/auth/login", formData)
-      .then((result) => {
-        if (result.success && result.body?.token) {
-          setSession({
-            token: result.body.token,
-            user: result.body.user,
-          });
-        } else {
-          console.warn("Auth: login failed", result?.message);
-        }
-      })
-      .catch((err) => console.warn("Auth: login error", err?.message))
-      .finally(() => setAuthLoading(false));
+    try {
+      const result = await post('/auth/login', formData);
+      if (result.success && result.body?.token) {
+        setSession({ token: result.body.token, user: result.body.user });
+        return { success: true };
+      }
+      return { success: false, message: 'Invalid credentials.' };
+    } catch {
+      return { success: false, message: 'Unable to sign in.' };
+    } finally {
+      setAuthLoading(false);
+    }
   };
 
   const logout = () => {
     clearSession();
   };
 
-  const signup = (formData) => {
+  const signup = async (formData) => {
     setAuthLoading(true);
-
-    post("/auth/signup", formData)
-      .then((result) => {
-        if (result.success && result.body?.token) {
-          setSession({
-            token: result.body.token,
-            user: result.body.user,
-          });
-        } else {
-          console.warn("Auth: signup failed", result?.message);
-        }
-      })
-      .catch((err) => console.warn("Auth: signup error", err?.message))
-      .finally(() => setAuthLoading(false));
+    try {
+      const result = await post('/auth/signup', formData);
+      if (result.success && result.body?.token) {
+        setSession({ token: result.body.token, user: result.body.user });
+        return { success: true };
+      }
+      return { success: false, message: 'Unable to create account.' };
+    } catch {
+      return { success: false, message: 'Unable to create account.' };
+    } finally {
+      setAuthLoading(false);
+    }
   };
 
   return { signup, login, logout, authLoading, getSession };

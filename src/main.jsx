@@ -1,4 +1,3 @@
-
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -10,23 +9,30 @@ import Plates from './pages/Plates.jsx';
 import Cart from './pages/Cart.jsx';
 import Profile from './pages/Profile.jsx';
 import Auth from './pages/Auth.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 const pages = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
-      { path: '/', element: <Home />},
-      { path: '/plates', element: <Plates />},
-      { path: '/cart', element: <Cart />},
-      { path: '/profile', element: <Profile />},
-      { path: '/auth', element: <Auth />}
-    ]
-  }
+      { index: true, element: <Home /> },
+      { path: 'plates', element: <Plates /> },
+      { path: 'auth', element: <Auth /> },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          { path: 'cart', element: <Cart /> },
+          { path: 'profile', element: <Profile /> },
+        ],
+      },
+      { path: '*', element: <Home /> },
+    ],
+  },
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={pages}></RouterProvider>
+    <RouterProvider router={pages} />
   </StrictMode>,
 );

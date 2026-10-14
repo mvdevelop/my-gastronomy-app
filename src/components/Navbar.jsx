@@ -17,7 +17,7 @@ function Navbar() {
     <nav className={styles.navbarContainer}>
       <div className={styles.navbarItems}>
           <Link to={'/'}>
-            <img src={logo} alt="" />
+            <img src={logo} alt="My Gastronomy" />
           </Link>
           <h2>My Gastronomy</h2>
           <div className={styles.navbarLinksContainer}>
